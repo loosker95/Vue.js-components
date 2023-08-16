@@ -1,6 +1,18 @@
 <template>
-  <Card content="This is the name of card" />
+  <!-- Dynamic component -->
+  <button @click="show = 'TabA'">Tab A</button>
+  <button @click="show = 'TabB'">Tab B</button>
+  <button @click="show = 'TabC'">Tab C</button>
 
+  <keep-alive>
+    <component :is="show" />
+  </keep-alive>
+  <!-- <TabA v-if="show === 'TabA'" />
+  <TabB v-if="show === 'TabB'" />
+  <TabC v-if="show === 'TabC'" /> -->
+
+  <hr />
+  <Card content="This is the name of card" />
   <card>
     <h2>Card content Header</h2>
   </card>
@@ -10,6 +22,7 @@
   </card>
   <br />
 
+  <!-- Slot name -->
   <Card>
     <template v-slot:header>
       <h2>Card content Header</h2>
@@ -23,11 +36,13 @@
   </Card>
   <hr />
 
+  <!-- Event emit -->
   <button @click="showPopup = true">show popup</button>
   <Popup v-show="showPopup" @close="showPopup = false" />
 
   <hr />
 
+  <!-- Component props -->
   <Welcome name="Fabien" speudo="Fab" />
   <Welcome name="Louce" speudo="Loos" />
   <Welcome name="Kerdely" speudo="Kerd" />
@@ -36,6 +51,12 @@
   <Article title="Learn vue.js article" :like="50" :isPublished="true" />
   <ComponentA />
   <p>The name from main component is: {{ name }}</p>
+
+  <hr />
+  <!-- Teleport component -->
+  <teleport to="#modal">
+    <Portal />
+  </teleport>
 </template>
 
 <script>
@@ -44,6 +65,10 @@ import Article from "./components/Article.vue";
 import ComponentA from "./components/ComponentA.vue";
 import Popup from "./components/Popup.vue";
 import Card from "./components/Card.vue";
+import TabA from "./components/TabA.vue";
+import TabB from "./components/TabB.vue";
+import TabC from "./components/TabC.vue";
+import Portal from "./components/Portal.vue";
 export default {
   name: "App",
   data() {
@@ -52,6 +77,7 @@ export default {
       country: "Vietnam",
       name: "Fabien Louce Kerdely",
       showPopup: false,
+      show: "TabA",
     };
   },
   components: {
@@ -60,6 +86,10 @@ export default {
     ComponentA,
     Popup,
     Card,
+    TabA,
+    TabB,
+    TabC,
+    Portal,
   },
   provide() {
     return { name: this.name };
